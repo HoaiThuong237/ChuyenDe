@@ -26,6 +26,7 @@ const theme = createTheme({
             fontWeight: 600,
         },
         h3: {
+            fontFamily: "Balloo 2, cursive",
             fontSize: "2rem",
             fontWeight: 600,
         },
@@ -49,6 +50,28 @@ const theme = createTheme({
                 },
             },
         },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    color: "#ccc",
+                    borderRadius: "8rem",
+                    "& label.Mui-focused": {
+                        color: "#000",
+                    },
+                    "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                            borderColor: "#ccc",
+                        },
+                        "&:hover fieldset": {
+                            borderColor: '#000'
+                        },
+                        "&.Mui-focused fieldset": {
+                            borderColor: "#ff9800",
+                        },
+                    }
+                },
+            },
+        }
     }
 });
 
