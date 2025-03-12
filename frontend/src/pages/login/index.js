@@ -6,9 +6,12 @@ import { Box,
         Card, 
         Typography,
         TextField,
-        Link} from "@mui/material";
+        Link,
+        Checkbox,
+        FormControlLabel} from "@mui/material";
 import Introduce from "../introduce";
 import Forgotpass from "../forgotpass";
+import Register from "../register";
 
 import PeopleIcon from '@mui/icons-material/People';
 import KeyIcon from '@mui/icons-material/Key';
@@ -23,22 +26,28 @@ const Login = () => {
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
+    const [username, setUsername] = useState("");
     const handleForgotPass = () => {
         setFogot(true);
+        console.log('fogot: '+fogot);
     }
 
     const handleBack = () => {
         setBack(true);
+        console.log('back: '+back);
     }
 
     const handleLogin = () => {
         setLogin(true);
+        console.log('login: '+login);
     }
 
     const handleRegister = () => {
         setRegister(true);
+        console.log('register: '+register);
     }
     return (
+        (register) ? <Register /> :
         (fogot) ? <Forgotpass /> :
         (back) ? <Introduce /> :
         <Paper>
@@ -59,11 +68,16 @@ const Login = () => {
                     <TextField id="tf-user" 
                                 label="Tên đăng nhập"
                                 required
+                                value={username}
+                                placeholder="Tên đăng nhập"
+                                onChange={(e) => setUsername(e.target.value)}
+                                error={username === ""}
+                                helperText={username === "" ? "Tên đăng nhập không được trống" : ""}
                                 slotProps={
                                     {
                                         input: {
                                             startAdornment: (
-                                                <PeopleIcon color="primary"/>
+                                                <PeopleIcon color="primary" sx={{marginRight: '10px'}}/>
                                             )
                                         }
                                     }
@@ -74,29 +88,37 @@ const Login = () => {
                     <TextField id="tf-pass" 
                                 label="Mật khẩu"
                                 type={showPass ? "text" : "password"}
+                                placeholder="Mật khẩu"
                                 autoComplete="current-password"
                                 required
                                 slotProps={
                                     {
                                         input: {
                                             startAdornment: (
-                                                <KeyIcon color="primary"/>
+                                                <KeyIcon color="primary" sx={{marginRight: '10px'}}/>
                                             ),
                                             endAdornment: (
                                                 showPass ?
-                                                <VisibilityIcon color="primary" onClick={() => {setShowPass(false)}}/> :
-                                                <VisibilityOffIcon color="primary" onClick={() => {setShowPass(true)}}/>
+                                                <VisibilityOffIcon color="primary" 
+                                                                sx={{marginLeft: '10px'}}
+                                                                onClick={() => {setShowPass(false)}}/> :
+                                                <VisibilityIcon color="primary" 
+                                                                    sx={{marginLeft: '10px'}}
+                                                                    onClick={() => {setShowPass(true)}}/>
                                             )
                                         }
                                     }
                                 }
                                 sx={{width: '360px'}}
                                 />
-                    <Link color="secondary"
-                          onClick={handleForgotPass}
-                          component={"button"}>
-                        Quên mật khẩu?
-                    </Link>
+                    <Stack direction={"row"} spacing={8}>
+                        <FormControlLabel control={<Checkbox />} label="Lưu đăng nhập"/>
+                        <Link color="secondary"
+                            onClick={handleForgotPass}
+                            component={"button"}>
+                            Quên mật khẩu?
+                        </Link>
+                    </Stack>
                     <Button variant="contained" 
                             sx={{width: '178px', 
                                 height: '32px', 

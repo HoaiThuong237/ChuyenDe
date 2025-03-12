@@ -14,6 +14,11 @@ import {Stack,
 function Introduce () {
 
     const [openLogin, setOpenLogin] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const handleClicklogo = () => {
+        setRefreshKey((prevKey) => prevKey + 1); // Thay đổi state để trigger re-render
+    };
 
     const handleOpenLogin = () => {
         setOpenLogin(true);
@@ -26,9 +31,12 @@ function Introduce () {
             <Stack spacing={2} style={{backgroundColor: '#f4e4e4'}}>
                 <header style={{backgroundColor: '#fff'}}>
                     <Stack direction="row" spacing={2} style={{height: '70px'}}>
-                        <img src='/images/logo.png' alt='logo' style={{width: '50px', 
-                                                                        height: '50px', 
-                                                                        margin: '10px 0 0 25px'}}/>
+                        <img src='/images/logo.png' alt='logo'
+                            onClick={() => {handleClicklogo()}}
+                             style={{width: '50px', 
+                                     height: '50px', 
+                                     margin: '10px 0 0 25px',
+                                     cursor: 'pointer'}}/>
                         <Typography variant='h2' color='primary' style={{flexGrow: 1, 
                                                                         margin: '16px 0 0 5px', 
                         }}>Bếp Nhà Mình</Typography>

@@ -1,38 +1,47 @@
 import React, { useState } from "react";
-import Login from "../login";
 import { Box, 
-    Button, 
-    Paper, 
-    Stack,
-    Card, 
-    Typography,
-    TextField,
-    Link,
-    Checkbox,
-    FormControlLabel} from "@mui/material";
+        Button, 
+        Paper, 
+        Stack,
+        Card, 
+        Typography,
+        TextField,
+        Link,
+        Checkbox,
+        FormControlLabel} from "@mui/material";
 
+import Login from "../login";
+
+import PersonIcon from '@mui/icons-material/Person';
+import PeopleIcon from '@mui/icons-material/People';
 import KeyIcon from '@mui/icons-material/Key';
 import LockIcon from '@mui/icons-material/Lock';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
-const Forgotpass = () => {
+const Register = () => {
 
     const [back, setBack] = useState(false);
+    const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [showPass2, setShowPass2] = useState(false);
+    const [username, setUsername] = useState("");
 
     const handleBack = () => {
         setBack(true);
+    }
+
+    const handleRegister = () => {
+        setRegister(true);
     }
     return (
         (back) ? <Login /> :
         <Paper>
             <Stack direction={"row"} spacing={4}>
                 <Stack>
-                    <img src="/images/forgotpass.jpg" 
-                        alt="forgotpass"
+                    <img src="/images/reg.png" 
+                        alt="register"
                         style={{width: '710px', 
                                 }}
                     />
@@ -42,11 +51,47 @@ const Forgotpass = () => {
                             alignItems: 'center'}}>
                     <Typography variant="h3" 
                                 color="primary" 
-                                spacing={2}>Đổi mật khẩu</Typography>
+                                spacing={2}>Đăng Ký</Typography>
+                    <TextField id="tf-name" 
+                                label="Họ và tên"
+                                required
+                                placeholder="Họ và tên"
+                                slotProps={
+                                    {
+                                        input: {
+                                            startAdornment: (
+                                                <PersonIcon color="primary" sx={{marginRight: '10px'}}/>
+                                            )
+                                        }
+                                    }
+                                }
+                                sx={{margin: '20px 0',
+                                    width: '360px'}}
+                                />
+                    <TextField id="tf-user" 
+                                label="Tên đăng nhập"
+                                required
+                                value={username}
+                                placeholder="Tên đăng nhập"
+                                onChange={(e) => setUsername(e.target.value)}
+                                error={username === ""}
+                                helperText={username === "" ? "Tên đăng nhập không được trống" : ""}
+                                slotProps={
+                                    {
+                                        input: {
+                                            startAdornment: (
+                                                <PeopleIcon color="primary" sx={{marginRight: '10px'}}/>
+                                            )
+                                        }
+                                    }
+                                }
+                                sx={{margin: '20px 0',
+                                    width: '360px'}}
+                                />
                     <TextField id="tf-pass" 
-                                label="Mật khẩu mới"
+                                label="Mật khẩu"
                                 type={showPass ? "text" : "password"}
-                                placeholder="Mật khẩu mới"
+                                placeholder="Mật khẩu"
                                 autoComplete="current-password"
                                 required
                                 slotProps={
@@ -67,7 +112,7 @@ const Forgotpass = () => {
                                         }
                                     }
                                 }
-                                sx={{width: '360px', margin: '20px 0'}}
+                                sx={{width: '360px'}}
                                 />
                     <TextField id="tf-pass2" 
                                 label="Nhập lại mật khẩu"
@@ -96,12 +141,14 @@ const Forgotpass = () => {
                                 sx={{width: '360px', margin: '20px 0'}}
                                 />
                     <Button variant="contained" 
+                            color="secondary"
                             sx={{width: '178px', 
                                 height: '32px', 
-                                margin: '24px 16px 16px 16px',
+                                margin: '16px 16px 4px 16px',
                                 color: '#fff',
-                                borderRadius: '10px'}}>
-                        Xác nhận
+                                borderRadius: '10px'}}
+                            onClick={() => {handleRegister()}}>
+                        Đăng Ký
                     </Button>
                     <Button variant="text" 
                             startIcon={<KeyboardBackspaceIcon />}
@@ -115,6 +162,6 @@ const Forgotpass = () => {
             </Stack>
         </Paper>
     )
-};  
+};
 
-export default Forgotpass;
+export default Register;
