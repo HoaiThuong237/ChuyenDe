@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, 
         Button, 
         Paper, 
@@ -26,13 +27,30 @@ const Register = () => {
     const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [showPass2, setShowPass2] = useState(false);
+    const [password, setPassword] = useState("");
+    const [password2, setPassword2] = useState("");
+    const [name, setName] = useState("");
     const [username, setUsername] = useState("");
+    const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     const handleBack = () => {
+        navigate('/login');
         setBack(true);
     }
 
     const handleRegister = () => {
+        if (username === "" || password === "" || name === "" || password2 === ""){
+            setError("Vui lòng điền đầy đủ thông tin.");
+        } else{
+            if (password !== password2){
+                setError("Mật khẩu không khớp nhau.");
+            } else{
+                setError("");
+                navigate('/login');
+            }
+        }
         setRegister(true);
     }
     return (
@@ -55,6 +73,8 @@ const Register = () => {
                     <TextField id="tf-name" 
                                 label="Họ và tên"
                                 required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 placeholder="Họ và tên"
                                 slotProps={
                                     {
@@ -92,6 +112,8 @@ const Register = () => {
                                 label="Mật khẩu"
                                 type={showPass ? "text" : "password"}
                                 placeholder="Mật khẩu"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 autoComplete="current-password"
                                 required
                                 slotProps={
@@ -102,10 +124,10 @@ const Register = () => {
                                             ),
                                             endAdornment: (
                                                 showPass ?
-                                                <VisibilityOffIcon color="primary" 
+                                                <VisibilityIcon color="primary" 
                                                                 sx={{marginLeft: '10px'}}
                                                                 onClick={() => {setShowPass(false)}}/> :
-                                                <VisibilityIcon color="primary" 
+                                                <VisibilityOffIcon color="primary" 
                                                                     sx={{marginLeft: '10px'}}
                                                                     onClick={() => {setShowPass(true)}}/>
                                             )
@@ -119,6 +141,8 @@ const Register = () => {
                                 type={showPass2 ? "text" : "password"}
                                 placeholder="Nhập lại mật khẩu"
                                 autoComplete="current-password"
+                                value={password2}
+                                onChange={(e) => setPassword2(e.target.value)}
                                 required
                                 slotProps={
                                     {
@@ -128,10 +152,10 @@ const Register = () => {
                                             ),
                                             endAdornment: (
                                                 showPass2 ?
-                                                <VisibilityOffIcon color="primary" 
+                                                <VisibilityIcon color="primary" 
                                                                 sx={{marginLeft: '10px'}}
                                                                 onClick={() => {setShowPass2(false)}}/> :
-                                                <VisibilityIcon color="primary" 
+                                                <VisibilityOffIcon color="primary" 
                                                                     sx={{marginLeft: '10px'}}
                                                                     onClick={() => {setShowPass2(true)}}/>
                                             )
@@ -140,6 +164,7 @@ const Register = () => {
                                 }
                                 sx={{width: '360px', margin: '20px 0'}}
                                 />
+                    {error && <Typography color="error">{error}</Typography>}
                     <Button variant="contained" 
                             color="secondary"
                             sx={{width: '178px', 

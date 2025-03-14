@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Login from "../login";
 import { Box, 
     Button, 
@@ -23,11 +24,13 @@ const Forgotpass = () => {
     const [showPass, setShowPass] = useState(false);
     const [showPass2, setShowPass2] = useState(false);
 
+    const navigate = useNavigate();
+
     const handleBack = () => {
+        navigate('/login');
         setBack(true);
     }
     return (
-        (back) ? <Login /> :
         <Paper>
             <Stack direction={"row"} spacing={4}>
                 <Stack>
@@ -57,10 +60,10 @@ const Forgotpass = () => {
                                             ),
                                             endAdornment: (
                                                 showPass ?
-                                                <VisibilityOffIcon color="primary" 
+                                                <VisibilityIcon color="primary" 
                                                                 sx={{marginLeft: '10px'}}
                                                                 onClick={() => {setShowPass(false)}}/> :
-                                                <VisibilityIcon color="primary" 
+                                                <VisibilityOffIcon color="primary" 
                                                                     sx={{marginLeft: '10px'}}
                                                                     onClick={() => {setShowPass(true)}}/>
                                             )
@@ -83,10 +86,10 @@ const Forgotpass = () => {
                                             ),
                                             endAdornment: (
                                                 showPass2 ?
-                                                <VisibilityOffIcon color="primary" 
+                                                <VisibilityIcon color="primary" 
                                                                 sx={{marginLeft: '10px'}}
                                                                 onClick={() => {setShowPass2(false)}}/> :
-                                                <VisibilityIcon color="primary" 
+                                                <VisibilityOffIcon color="primary" 
                                                                     sx={{marginLeft: '10px'}}
                                                                     onClick={() => {setShowPass2(true)}}/>
                                             )

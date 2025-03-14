@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, 
         Button, 
         Paper, 
@@ -27,29 +28,46 @@ const Login = () => {
     const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberLogin, setRememberLogin] = useState(false);
+    const [error, setError] = useState("");
+
+    const navigate = useNavigate();
+
+    const correctUsername = "admin";
+    const correctPassword = "123";
+
+    const handleLogin = () => {
+        if (username === correctUsername && password === correctPassword){
+            if(rememberLogin) {
+                localStorage.setItem("rememberLogin", "true")
+            }
+            navigate("/home");
+        } else{
+            setError("Tên đăng nhập hoặc mật khẩu không đúng.")
+        }
+        setLogin(true);
+        console.log('login: '+login);
+    }
     const handleForgotPass = () => {
+        navigate('/forgotpass');
         setFogot(true);
         console.log('fogot: '+fogot);
     }
 
     const handleBack = () => {
+        navigate('/introduce');
         setBack(true);
         console.log('back: '+back);
     }
 
-    const handleLogin = () => {
-        setLogin(true);
-        console.log('login: '+login);
-    }
 
     const handleRegister = () => {
+        navigate('/register');
         setRegister(true);
         console.log('register: '+register);
     }
     return (
-        (register) ? <Register /> :
-        (fogot) ? <Forgotpass /> :
-        (back) ? <Introduce /> :
         <Paper>
             <Stack direction={"row"} spacing={4}>
                 <Stack>
@@ -91,6 +109,8 @@ const Login = () => {
                                 placeholder="Mật khẩu"
                                 autoComplete="current-password"
                                 required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 slotProps={
                                     {
                                         input: {
@@ -99,10 +119,10 @@ const Login = () => {
                                             ),
                                             endAdornment: (
                                                 showPass ?
-                                                <VisibilityOffIcon color="primary" 
+                                                <VisibilityIcon color="primary" 
                                                                 sx={{marginLeft: '10px'}}
                                                                 onClick={() => {setShowPass(false)}}/> :
-                                                <VisibilityIcon color="primary" 
+                                                <VisibilityOffIcon color="primary" 
                                                                     sx={{marginLeft: '10px'}}
                                                                     onClick={() => {setShowPass(true)}}/>
                                             )
@@ -112,13 +132,16 @@ const Login = () => {
                                 sx={{width: '360px'}}
                                 />
                     <Stack direction={"row"} spacing={8}>
-                        <FormControlLabel control={<Checkbox />} label="Lưu đăng nhập"/>
+                        <FormControlLabel control={
+                            <Checkbox checked={rememberLogin} onChange={(e) => setRememberLogin(e.target.checked)}/>
+                        } label="Lưu đăng nhập"/>
                         <Link color="secondary"
                             onClick={handleForgotPass}
                             component={"button"}>
                             Quên mật khẩu?
                         </Link>
                     </Stack>
+                    {error && <Typography color="error">{error}</Typography>}
                     <Button variant="contained" 
                             sx={{width: '178px', 
                                 height: '32px', 
