@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {Stack,
         Paper,
         Button,
@@ -16,17 +17,19 @@ function Introduce () {
     const [openLogin, setOpenLogin] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
 
+    const navigate = useNavigate();
+
     const handleClicklogo = () => {
         setRefreshKey((prevKey) => prevKey + 1); // Thay đổi state để trigger re-render
     };
 
     const handleOpenLogin = () => {
+        navigate('/login');
         setOpenLogin(true);
         console.log('open login');
     }
 
     return (
-        (openLogin) ? <Login /> :
         <div className='introduce'>
             <Stack spacing={2} style={{backgroundColor: '#f4e4e4'}}>
                 <header style={{backgroundColor: '#fff'}}>
