@@ -28,17 +28,28 @@ async function connectDB() {
 connectDB();
 
 // API GET: Lấy danh sách công thức nấu ăn
-app.get("/recipes", async (req, res) => {
+// app.get("/users", async (req, res) => {
+//   try {
+//     const result = await sql.query("SELECT * FROM users");
+//     res.json(result.recordset);
+//   } catch (err) {
+//     res.status(500).json({ error: "Lỗi truy vấn SQL", details: err.message });
+//   }
+// });
+
+// API GET: Lấy danh sách Users
+app.get("/users", async (req, res) => {
   try {
-    const result = await sql.query("SELECT * FROM recipes");
+    const result = await sql.query("SELECT * FROM Users");
     res.json(result.recordset);
   } catch (err) {
     res.status(500).json({ error: "Lỗi truy vấn SQL", details: err.message });
   }
 });
 
+
 // Chạy server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
 });
