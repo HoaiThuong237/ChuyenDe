@@ -6,13 +6,15 @@ import Nav from "../../components/nav";
 
 const Home = () => {
     return(
-        <Stack direction={"row"} spacing={2}>
+        <Stack direction={"row"} spacing={2} sx={{margin: '10px'}}>
             <Nav />
-            <Stack spacing={2}>
-                <Header />
-                <HomeComponent />
-            </Stack>
-        </Stack>
+            <Paper sx={{flexGrow: 1}}>
+                <Stack spacing={0} >
+                    <Header />
+                    <HomeComponent />
+                </Stack>
+            </Paper>
+        </Stack>    
     )
 };
 

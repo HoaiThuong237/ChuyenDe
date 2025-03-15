@@ -71,7 +71,19 @@ const theme = createTheme({
                     }
                 },
             },
-        }
+        },
+        MuiListItemButton: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#fff",
+                    color: "#ccc",
+                    "&:hover": {
+                        backgroundColor: "#fff",
+                        color: "#000"
+                    }
+                },
+            },
+        },
     }
 });
 
