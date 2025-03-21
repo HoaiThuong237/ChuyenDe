@@ -60,8 +60,8 @@ const Register = () => {
                 <Stack>
                     <img src="/images/reg.png" 
                         alt="register"
-                        style={{width: '710px', 
-                                }}
+                        style={{width: '100%', 
+                                height: '100%'}}
                     />
                 </Stack>
                 <Stack sx={{width: '750px', marginTop: '100px',

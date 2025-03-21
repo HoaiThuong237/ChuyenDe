@@ -30,6 +30,11 @@ const theme = createTheme({
             fontSize: "2rem",
             fontWeight: 600,
         },
+        h4: {
+            fontFamily: "Balloo 2, cursive",
+            fontSize: "1.5rem",
+            fontWeight: 600,
+        },
         body1: {
             fontFamily: "Baloo 2, cursive",
             fontSize: "1.3rem",
@@ -84,6 +89,24 @@ const theme = createTheme({
                 },
             },
         },
+        MuiMenu: {
+            styleOverrides: {
+                paper: {
+                    backgroundColor: "#fff",
+                },
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#fff",
+                    "&:hover": {
+                        backgroundColor: "#fff",
+                        color: "#ff9800"
+                    }
+                },
+            },
+        }
     }
 });
 

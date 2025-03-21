@@ -10,9 +10,6 @@ import { Box,
         Link,
         Checkbox,
         FormControlLabel} from "@mui/material";
-import Introduce from "../introduce";
-import Forgotpass from "../forgotpass";
-import Register from "../register";
 
 import PeopleIcon from '@mui/icons-material/People';
 import KeyIcon from '@mui/icons-material/Key';
@@ -73,8 +70,8 @@ const Login = () => {
                 <Stack>
                     <img src="/images/log.jpg" 
                         alt="login"
-                        style={{width: '710px', 
-                                }}
+                        style={{width: '100%', 
+                                height: '100%'}}
                     />
                 </Stack>
                 <Stack sx={{width: '750px', marginTop: '100px',

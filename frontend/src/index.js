@@ -22,7 +22,7 @@ const  App = () =>{
               <Routes>
                 <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Introduce />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path="/home/*" element={<ProtectedRoute><Home /></ProtectedRoute>} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/forgotpass' element={<Forgotpass />} />
                 <Route path="/introduce" element={<Introduce />} />
