@@ -10,9 +10,6 @@ import { Box,
         Link,
         Checkbox,
         FormControlLabel} from "@mui/material";
-import Introduce from "../introduce";
-import Forgotpass from "../forgotpass";
-import Register from "../register";
 
 import PeopleIcon from '@mui/icons-material/People';
 import KeyIcon from '@mui/icons-material/Key';

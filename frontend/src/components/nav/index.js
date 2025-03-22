@@ -1,11 +1,24 @@
 import React, { useState } from "react";
-import { Drawer, IconButton, Box, Stack, Typography, Button, List, ListItem, ListItemIcon, ListItemText, ListItemButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Drawer, 
+         IconButton, 
+         Box, 
+         Stack, 
+         Typography, 
+         Button, 
+         List, 
+         ListItem, 
+         ListItemIcon, 
+         ListItemText, 
+         ListItemButton } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import SearchIcon from '@mui/icons-material/Search';
+import AssistantIcon from '@mui/icons-material/Assistant';
 
 const Nav = () => {
   const [open, setOpen] = useState(false);
 
+  const navigate = useNavigate();
   return (
     <Box>
       {/* Drawer - Thanh điều hướng */}
@@ -40,7 +53,9 @@ const Nav = () => {
         {/* Nội dung thanh điều hướng */}
         <Box sx={{ p: 2 }}>{open ? 
           <Stack>
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={2}
+                    onClick={() => navigate('/')}
+                    sx={{cursor: 'pointer'}}>
               <img src='/images/logo.png' alt='logo'
                   style={{width: '40px', 
                           height: '40px', 
@@ -58,17 +73,29 @@ const Nav = () => {
                 <ListItemIcon><SearchIcon/></ListItemIcon>
                 <ListItemText primary="Tìm kiếm"/>
               </ListItemButton>
+              <ListItemButton>
+                <ListItemIcon><AssistantIcon/></ListItemIcon>
+                <ListItemText primary="AI"/>
+              </ListItemButton>
             </List>
           </Stack>
          : 
           <Stack>
             <img src='/images/logo.png' alt='logo'
+                  onClick={() => navigate('/')}
                   style={{
                     marginTop: '40px',
+                    cursor: 'pointer'
                   }}
             />
             <IconButton color="primary" sx={{marginTop: '15px'}}>
               <SearchIcon sx={{
+                          width: '40px',
+                          height: '40px',
+                        }}/>
+            </IconButton>
+            <IconButton color="primary" >
+              <AssistantIcon sx={{
                           width: '40px',
                           height: '40px',
                         }}/>
