@@ -26,14 +26,14 @@ const Login = () => {
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [Username, setUsername] = useState("");
+    const [Password, setPassword] = useState("");
     const [rememberLogin, setRememberLogin] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        if (!identifier || !password) {
+        if (!identifier || !Password) {
             setError("Vui lòng nhập đầy đủ thông tin.");
             return;
         }
@@ -42,7 +42,7 @@ const Login = () => {
             const response = await fetch("http://localhost:5000/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ login: identifier, password }),
+                body: JSON.stringify({ login: identifier, Password }),
             });
     
             const data = await response.json();
@@ -96,7 +96,7 @@ const Login = () => {
                             label="Mật khẩu"
                             type={showPass ? "text" : "password"}
                             required
-                            value={password}
+                            value={Password}
                             placeholder="Nhập mật khẩu"
                             onChange={(e) => setPassword(e.target.value)}
                             sx={{ width: '360px' }}
