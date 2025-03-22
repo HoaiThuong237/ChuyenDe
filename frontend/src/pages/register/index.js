@@ -27,11 +27,11 @@ const Register = () => {
     const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
     const [showPass2, setShowPass2] = useState(false);
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
-    const [name, setName] = useState("");
-    const [usersname, setUsersname] = useState(""); // Đổi username -> usersname
-    const [email, setEmail] = useState(""); // Thêm email
+    const [Password, setPassword] = useState("");
+    const [Password2, setPassword2] = useState("");
+    const [Name, setName] = useState("");
+    const [Username, setUsername] = useState(""); // Đổi username -> username
+    const [Email, setEmail] = useState(""); // Thêm email
     const [error, setError] = useState("");
 
     const navigate = useNavigate();
@@ -42,22 +42,24 @@ const Register = () => {
     };
 
     const handleRegister = async () => {
-        if (usersname === "" || password === "" || name === "" || password2 === "" || email === "") {
+        if (Username === "" || Password === "" || Name === "" || Password2 === "" || Email === "") {
             setError("Vui lòng điền đầy đủ thông tin.");
             return;
         }
 
-        if (password !== password2) {
+        if (Password !== Password2) {
             setError("Mật khẩu không khớp nhau.");
             return;
         }
+
+        console.log("Dữ liệu gửi lên:", { Name, Username, Email, Password });
 
         // Gửi request đăng ký đến API backend
         try {
             const response = await fetch("http://localhost:5000/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, usersname, email, password })
+                body: JSON.stringify({ Name, Username, Email, Password })
             });
 
             const data = await response.json();
@@ -75,6 +77,42 @@ const Register = () => {
         setRegister(true);
     };
 
+
+    // const handleRegister = async () => {
+    //     if (Username === "" || Password === "" || Name === "" || Password2 === "" || Email === "") {
+    //         setError("Vui lòng điền đầy đủ thông tin.");
+    //         return;
+    //     }
+    
+    //     if (Password !== Password2) {
+    //         setError("Mật khẩu không khớp nhau.");
+    //         return;
+    //     }
+    
+    //     console.log("Dữ liệu gửi lên:", { name: Name, username: Username, email: Email, password: Password });
+    
+    //     // Gửi request đăng ký đến API backend
+    //     try {
+    //         const response = await fetch("http://localhost:5000/register", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ name: Name, username: Username, email: Email, password: Password })
+    //         });
+    
+    //         const data = await response.json();
+    
+    //         if (response.ok) {
+    //             alert("Đăng ký thành công! Hãy đăng nhập.");
+    //             navigate("/login");
+    //         } else {
+    //             setError(data.error || "Có lỗi xảy ra, vui lòng thử lại.");
+    //         }
+    //     } catch (error) {
+    //         setError("Không thể kết nối đến server.");
+    //     }
+    // };
+    
+
     return (
         (back) ? <Login /> :
         <Paper>
@@ -90,7 +128,7 @@ const Register = () => {
 
                     <TextField 
                         id="tf-name" label="Họ và tên" required
-                        value={name} onChange={(e) => setName(e.target.value)}
+                        value={Name} onChange={(e) => setName(e.target.value)}
                         placeholder="Họ và tên"
                         sx={{margin: '20px 0', width: '360px'}}
                         InputProps={{ startAdornment: <PersonIcon color="primary" sx={{marginRight: '10px'}}/> }}
@@ -98,7 +136,7 @@ const Register = () => {
 
                     <TextField 
                         id="tf-email" label="Email" required
-                        value={email} onChange={(e) => setEmail(e.target.value)}
+                        value={Email} onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email"
                         sx={{margin: '20px 0', width: '360px'}}
                         InputProps={{ startAdornment: <EmailIcon color="primary" sx={{marginRight: '10px'}}/> }}
@@ -106,17 +144,17 @@ const Register = () => {
 
                     <TextField 
                         id="tf-user" label="Tên đăng nhập" required
-                        value={usersname} onChange={(e) => setUsersname(e.target.value)}
+                        value={Username} onChange={(e) => setUsername(e.target.value)}
                         placeholder="Tên đăng nhập"
-                        error={usersname === ""}
-                        helperText={usersname === "" ? "Tên đăng nhập không được trống" : ""}
+                        error={Username === ""}
+                        helperText={Username === "" ? "Tên đăng nhập không được trống" : ""}
                         sx={{margin: '20px 0', width: '360px'}}
                         InputProps={{ startAdornment: <PeopleIcon color="primary" sx={{marginRight: '10px'}}/> }}
                     />
 
                     <TextField 
-                        id="tf-pass" label="Mật khẩu" type={showPass ? "text" : "password"} required
-                        value={password} onChange={(e) => setPassword(e.target.value)}
+                        id="tf-pass" label="Mật khẩu" type={showPass ? "text" : "Password"} required
+                        value={Password} onChange={(e) => setPassword(e.target.value)}
                         placeholder="Mật khẩu"
                         sx={{width: '360px'}}
                         InputProps={{ 
@@ -128,8 +166,8 @@ const Register = () => {
                     />
 
                     <TextField 
-                        id="tf-pass2" label="Nhập lại mật khẩu" type={showPass2 ? "text" : "password"} required
-                        value={password2} onChange={(e) => setPassword2(e.target.value)}
+                        id="tf-pass2" label="Nhập lại mật khẩu" type={showPass2 ? "text" : "Password"} required
+                        value={Password2} onChange={(e) => setPassword2(e.target.value)}
                         placeholder="Nhập lại mật khẩu"
                         sx={{width: '360px', margin: '20px 0'}}
                         InputProps={{ 
