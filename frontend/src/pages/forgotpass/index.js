@@ -36,8 +36,7 @@ const Forgotpass = () => {
                 <Stack>
                     <img src="/images/forgotpass.jpg" 
                         alt="forgotpass"
-                        style={{width: '710px', 
-                                }}
+                        style={{width: '100%', height: '100%'}}
                     />
                 </Stack>
                 <Stack sx={{width: '750px', marginTop: '100px',

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Paper, 
         TextField, 
         Box, 
@@ -7,11 +8,36 @@ import { Paper,
         IconButton,
         Avatar,
         AppBar,
-        Card} from "@mui/material";
-import React from "react";
+        Menu,
+        MenuItem,
+        Card,
+        ListItemIcon,
+        ListItemText} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+import AddIcon from '@mui/icons-material/Add';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 import SearchIcon from '@mui/icons-material/Search';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Header = () => {
+
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const navigate = useNavigate();
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    }
+
+    const handleOpenProfile = () => {
+        navigate("/home/profile");
+    }
 
     const handleLogout = () => {
         localStorage.removeItem("rememberLogin");
@@ -36,12 +62,13 @@ const Header = () => {
                     sx={{width: '100%', height: '100%'}}>
                 <Stack direction="row" 
                        spacing={2} 
-                       flexGrow={1}>
+                       flexGrow={1}
+                       sx={{cursor: 'pointer'}}
+                       onClick={() => navigate("/home")}>
                     <img src='/images/logo.png' alt='logo'
                         style={{width: '40px', 
                                 height: '40px', 
-                                margin: '0 0 0 3px',
-                                cursor: 'pointer'}}/>
+                                margin: '0 0 0 3px'}}/>
                     <Typography variant='h2' 
                                 color='primary' 
                                 style={{margin: '8px 0 0 5px', 
@@ -57,7 +84,7 @@ const Header = () => {
                             {
                                 input: {
                                     startAdornment: (
-                                        <IconButton>
+                                        <IconButton color="primary">
                                             <SearchIcon />
                                         </IconButton>
                                     )
@@ -72,10 +99,36 @@ const Header = () => {
                         Tìm kiếm
                     </Button>
                 </Stack>
-                <IconButton>
-                    <Avatar sx={{bgcolor: 'primary.main', color: 'white'}}>A</Avatar>
+                <IconButton onClick={handleClick}>
+                    <Avatar src="/broken-image.jpg" sx={{bgcolor: 'primary.main', color: 'white'}}/>
                 </IconButton>
-                <Button variant="contained" onClick={handleLogout}>Logout</Button>
+                <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
+                        slotProps={{paper: {sx: {width: '300px'}}}}>
+                    <MenuItem sx={{pointerEvents: 'none'}}>
+                        <Stack direction="row" spacing={2}>
+                            <Avatar src="/broken-image.jpg" sx={{bgcolor: 'primary.main', color: 'white'}}/>
+                            <Stack>
+                            <Typography variant="body1">Admin</Typography>
+                            <Typography variant="body2">@admin</Typography>
+                            </Stack>
+                        </Stack>
+                    </MenuItem>
+                    <MenuItem onClick={handleOpenProfile} divider= {true}>Trang cá nhân</MenuItem>
+                    <MenuItem onClick={handleLogout} >
+                        <ListItemIcon>
+                            <LogoutIcon />
+                        </ListItemIcon>
+                        <ListItemText>Đăng xuất</ListItemText>
+                    </MenuItem>
+                </Menu>
+                <Button variant="contained" 
+                        startIcon={<RestaurantIcon />}
+                        sx={{borderRadius: '8px', 
+                             height: '40px', 
+                             width: '170px', 
+                             color: 'white'}}>
+                    Thêm công thức
+                </Button>
             </Stack>
         </Paper>
     )   
