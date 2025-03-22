@@ -13,7 +13,9 @@ import reportWebVitals from './reportWebVitals';
 
 const  App = () =>{
   
-  const isLoggedIn = localStorage.getItem("rememberLogin") === 'true'; 
+  const isLoggedIn = localStorage.getItem("user") !== null || localStorage.getItem("rememberLogin") === "true";
+
+
 
     return(
       <Router>
