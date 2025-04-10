@@ -22,6 +22,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const Header = () => {
 
+    const user = JSON.parse(localStorage.getItem("user"));
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -36,12 +37,15 @@ const Header = () => {
     }
 
     const handleOpenProfile = () => {
-        navigate("/home/profile");
+        navigate("/bepnhaminh/trangcanhan");
     }
 
+    const handleOpenAddRecipe = () => {
+        navigate("/bepnhaminh/themcongthuc");
+    }
     const handleLogout = () => {
         localStorage.removeItem("rememberLogin");
-        window.location.href = "/introduce";
+        window.location.href = "/gioithieu";
     }
     return (
         <Paper direction="row" elevation={1}
@@ -54,7 +58,7 @@ const Header = () => {
                     backgroundColor: 'white',
                     display: 'flex',
                     alignItems: 'center',
-                    px: 2, // Thêm padding ngang cho đẹp
+                    px: 2,
                     margin: '0 10px 0 0'
                 }}>
             <Stack direction="row" spacing={2}
@@ -64,7 +68,7 @@ const Header = () => {
                        spacing={2} 
                        flexGrow={1}
                        sx={{cursor: 'pointer'}}
-                       onClick={() => navigate("/home")}>
+                       onClick={() => navigate("/bepnhaminh")}>
                     <img src='/images/logo.png' alt='logo'
                         style={{width: '40px', 
                                 height: '40px', 
@@ -108,8 +112,8 @@ const Header = () => {
                         <Stack direction="row" spacing={2}>
                             <Avatar src="/broken-image.jpg" sx={{bgcolor: 'primary.main', color: 'white'}}/>
                             <Stack>
-                            <Typography variant="body1">Admin</Typography>
-                            <Typography variant="body2">@admin</Typography>
+                            <Typography variant="body1">{user.Name}</Typography>
+                            <Typography variant="body2">@{user.Username}</Typography>
                             </Stack>
                         </Stack>
                     </MenuItem>
@@ -123,6 +127,7 @@ const Header = () => {
                 </Menu>
                 <Button variant="contained" 
                         startIcon={<RestaurantIcon />}
+                        onClick={handleOpenAddRecipe}
                         sx={{borderRadius: '8px', 
                              height: '40px', 
                              width: '170px', 

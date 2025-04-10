@@ -21,12 +21,7 @@ const Login = () => {
 
     const [identifier, setIdentifier] = useState(""); 
 
-    const [back, setBack] = useState(false);
-    const [fogot, setFogot] = useState(false);
-    const [login, setLogin] = useState(false);
-    const [register, setRegister] = useState(false);
     const [showPass, setShowPass] = useState(false);
-    const [Username, setUsername] = useState("");
     const [Password, setPassword] = useState("");
     const [rememberLogin, setRememberLogin] = useState(false);
     const [error, setError] = useState("");
@@ -46,19 +41,22 @@ const Login = () => {
             });
     
             const data = await response.json();
+            console.log(data);
 
             if (response.ok) {
                 localStorage.setItem("user", JSON.stringify(data.user));
                 if (rememberLogin) {
                     localStorage.setItem("rememberLogin", "true");
-                
                 }
+                else {
+                    localStorage.removeItem("rememberLogin");
+                  }
                     alert("Đăng nhập thành công!");
 
                     console.log("User in localStorage:", localStorage.getItem("user"));
                     console.log("Remember Login:", localStorage.getItem("rememberLogin"));
 
-                    navigate("/home");  
+                    navigate("/bepnhaminh");  
             } else {
                 setError(data.message || "Thông tin đăng nhập không chính xác.");
             }
@@ -66,8 +64,6 @@ const Login = () => {
             setError("Không thể kết nối đến server.");
         }
     };
-    
-    
         return (
             <Paper>
                 <Stack direction={"row"} spacing={4}>
@@ -103,17 +99,18 @@ const Login = () => {
                             InputProps={{
                                 startAdornment: <KeyIcon color="primary" sx={{ marginRight: '10px' }} />,
                                 endAdornment: showPass 
-                                    ? <VisibilityIcon color="primary" sx={{ marginLeft: '10px' }} onClick={() => setShowPass(false)} /> 
-                                    : <VisibilityOffIcon color="primary" sx={{ marginLeft: '10px' }} onClick={() => setShowPass(true)} />
+                                    ? <VisibilityIcon color="primary" sx={{ marginLeft: '10px', cursor: 'pointer' }} onClick={() => setShowPass(false)} /> 
+                                    : <VisibilityOffIcon color="primary" sx={{ marginLeft: '10px', cursor: 'pointer' }} onClick={() => setShowPass(true)} />
                             }}
                         />
     
                         <Stack direction={"row"} spacing={8}>
                             <FormControlLabel 
-                                control={<Checkbox checked={rememberLogin} onChange={(e) => setRememberLogin(e.target.checked)} />}
+                                control={<Checkbox checked={rememberLogin} 
+                                        onChange={(e) => setRememberLogin(e.target.checked)} />}
                                 label="Lưu đăng nhập"
                             />
-                            <Link color="secondary" onClick={() => navigate('/forgotpass')} component={"button"}>
+                            <Link color="secondary" onClick={() => navigate('/quenmatkhau')} component={"button"}>
                                 Quên mật khẩu?
                             </Link>
                         </Stack>
@@ -121,7 +118,9 @@ const Login = () => {
                         {error && <Typography color="error">{error}</Typography>}
     
                         <Button variant="contained" 
-                                sx={{ width: '178px', height: '32px', margin: '24px 16px 16px 16px', borderRadius: '10px' }}
+                                sx={{ width: '178px', 
+                                      height: '32px', margin: '24px 16px 16px 16px', 
+                                      borderRadius: '10px', color: 'white' }}
                                 onClick={handleLogin}>
                             Đăng Nhập
                         </Button>
@@ -132,15 +131,17 @@ const Login = () => {
     
                         <Button variant="contained" 
                                 color="secondary"
-                                sx={{ width: '178px', height: '32px', margin: '16px 16px 4px 16px', borderRadius: '10px' }}
-                                onClick={() => navigate('/register')}>
+                                sx={{ width: '178px', 
+                                    height: '32px', 
+                                    margin: '16px 16px 4px 16px', 
+                                    borderRadius: '10px' , color: 'white'}}
+                                onClick={() => navigate('/dangky')}>
                             Đăng Ký
                         </Button>
-    
                         <Button variant="text" 
                                 startIcon={<KeyboardBackspaceIcon />}
                                 sx={{ margin: '4px 0', color: '#000' }}
-                                onClick={() => navigate('/introduce')}>
+                                onClick={() => navigate(-1)}>
                             Quay về
                         </Button>
                     </Stack>
