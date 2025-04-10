@@ -27,7 +27,7 @@ const Forgotpass = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate('/login');
+        navigate(-1)
         setBack(true);
     }
     return (
@@ -45,6 +45,11 @@ const Forgotpass = () => {
                     <Typography variant="h3" 
                                 color="primary" 
                                 spacing={2}>Đổi mật khẩu</Typography>
+                    <TextField 
+                        label="Nhập Email hoặc Username"
+                        placeholder="Nhập Email hoặc Username"
+                        sx={{width: '360px', margin: '20px 0'}}
+                    />
                     <TextField id="tf-pass" 
                                 label="Mật khẩu mới"
                                 type={showPass ? "text" : "password"}
@@ -60,10 +65,10 @@ const Forgotpass = () => {
                                             endAdornment: (
                                                 showPass ?
                                                 <VisibilityIcon color="primary" 
-                                                                sx={{marginLeft: '10px'}}
+                                                                sx={{marginLeft: '10px', cursor: 'pointer'}}
                                                                 onClick={() => {setShowPass(false)}}/> :
                                                 <VisibilityOffIcon color="primary" 
-                                                                    sx={{marginLeft: '10px'}}
+                                                                    sx={{marginLeft: '10px', cursor: 'pointer'}}
                                                                     onClick={() => {setShowPass(true)}}/>
                                             )
                                         }
@@ -86,10 +91,10 @@ const Forgotpass = () => {
                                             endAdornment: (
                                                 showPass2 ?
                                                 <VisibilityIcon color="primary" 
-                                                                sx={{marginLeft: '10px'}}
+                                                                sx={{marginLeft: '10px', cursor: 'pointer'}}
                                                                 onClick={() => {setShowPass2(false)}}/> :
                                                 <VisibilityOffIcon color="primary" 
-                                                                    sx={{marginLeft: '10px'}}
+                                                                    sx={{marginLeft: '10px', cursor: 'pointer'}}
                                                                     onClick={() => {setShowPass2(true)}}/>
                                             )
                                         }

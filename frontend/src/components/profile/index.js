@@ -16,9 +16,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Profile = () => {
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const navigate = useNavigate()
     const handleOpenUpdateProfile = () => {
-        navigate("/home/update-profile");
+        navigate("/bepnhaminh/capnhattrangcanhan");
     }
 
     const handleBack = () =>{
@@ -38,8 +40,8 @@ const Profile = () => {
                             sx={{bgcolor: 'primary.main', 
                                 color: 'white'}} />
                     <Stack>
-                        <Typography variant="h4">Admin</Typography>
-                        <Typography variant="body2">@Admin</Typography>
+                        <Typography variant="h4">{user.Name}</Typography>
+                        <Typography variant="body2">@{user.Username}</Typography>
                     </Stack>
                 </Stack>
                 <Button variant="contained"

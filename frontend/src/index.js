@@ -12,22 +12,21 @@ import ProtectedRoute from './protectroute.js';
 import reportWebVitals from './reportWebVitals';
 
 const  App = () =>{
+  const user = localStorage.getItem("user");
+  const rememberLogin = localStorage.getItem("rememberLogin") === "true";
+  const isLoggedIn = user !== null && (rememberLogin || sessionStorage.getItem("user") !== null);
   
-  const isLoggedIn = localStorage.getItem("user") !== null || localStorage.getItem("rememberLogin") === "true";
-
-
-
     return(
       <Router>
         <ThemeProvider theme={theme}>
           <CssBaseline />
               <Routes>
-                <Route path="/" element={isLoggedIn ? <Navigate to="/home" /> : <Introduce />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/home/*" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-                <Route path='/register' element={<Register />} />
-                <Route path='/forgotpass' element={<Forgotpass />} />
-                <Route path="/introduce" element={<Introduce />} />
+                <Route path="/" element={isLoggedIn ? <Navigate to="/bepnhaminh" /> : <Introduce />} />
+                <Route path="/dangnhap" element={<Login />} />
+                <Route path="/bepnhaminh/*" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path='/dangky' element={<Register />} />
+                <Route path='/quenmatkhau' element={<Forgotpass />} />
+                <Route path="/gioithieu" element={<Introduce />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
         </ThemeProvider>

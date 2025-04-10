@@ -37,7 +37,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate('/login');
+        navigate(-1);
         setBack(true);
     };
 
@@ -76,42 +76,6 @@ const Register = () => {
 
         setRegister(true);
     };
-
-
-    // const handleRegister = async () => {
-    //     if (Username === "" || Password === "" || Name === "" || Password2 === "" || Email === "") {
-    //         setError("Vui lòng điền đầy đủ thông tin.");
-    //         return;
-    //     }
-    
-    //     if (Password !== Password2) {
-    //         setError("Mật khẩu không khớp nhau.");
-    //         return;
-    //     }
-    
-    //     console.log("Dữ liệu gửi lên:", { name: Name, username: Username, email: Email, password: Password });
-    
-    //     // Gửi request đăng ký đến API backend
-    //     try {
-    //         const response = await fetch("http://localhost:5000/register", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ name: Name, username: Username, email: Email, password: Password })
-    //         });
-    
-    //         const data = await response.json();
-    
-    //         if (response.ok) {
-    //             alert("Đăng ký thành công! Hãy đăng nhập.");
-    //             navigate("/login");
-    //         } else {
-    //             setError(data.error || "Có lỗi xảy ra, vui lòng thử lại.");
-    //         }
-    //     } catch (error) {
-    //         setError("Không thể kết nối đến server.");
-    //     }
-    // };
-    
 
     return (
         (back) ? <Login /> :
@@ -160,8 +124,8 @@ const Register = () => {
                         InputProps={{ 
                             startAdornment: <KeyIcon color="primary" sx={{marginRight: '10px'}}/>,
                             endAdornment: showPass ? 
-                                <VisibilityIcon color="primary" sx={{marginLeft: '10px'}} onClick={() => setShowPass(false)}/> :
-                                <VisibilityOffIcon color="primary" sx={{marginLeft: '10px'}} onClick={() => setShowPass(true)}/>
+                                <VisibilityIcon color="primary" sx={{marginLeft: '10px', cursor: 'pointer'}} onClick={() => setShowPass(false)}/> :
+                                <VisibilityOffIcon color="primary" sx={{marginLeft: '10px', cursor: 'pointer'}} onClick={() => setShowPass(true)}/>
                         }}
                     />
 
@@ -173,8 +137,8 @@ const Register = () => {
                         InputProps={{ 
                             startAdornment: <LockIcon color="primary" sx={{marginRight: '10px'}}/>,
                             endAdornment: showPass2 ? 
-                                <VisibilityIcon color="primary" sx={{marginLeft: '10px'}} onClick={() => setShowPass2(false)}/> :
-                                <VisibilityOffIcon color="primary" sx={{marginLeft: '10px'}} onClick={() => setShowPass2(true)}/>
+                                <VisibilityIcon color="primary" sx={{marginLeft: '10px', cursor: 'pointer'}} onClick={() => setShowPass2(false)}/> :
+                                <VisibilityOffIcon color="primary" sx={{marginLeft: '10px', cursor: 'pointer'}} onClick={() => setShowPass2(true)}/>
                         }}
                     />
 

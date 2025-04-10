@@ -9,7 +9,7 @@ import {Stack,
         CardContent,
         CardMedia
     } from '@mui/material';
-    import Login from '../login';
+import Login from '../login';
 
 
 function Introduce () {
@@ -24,7 +24,7 @@ function Introduce () {
     };
 
     const handleOpenLogin = () => {
-        navigate('/login');
+        navigate('/dangnhap');
         setOpenLogin(true);
         console.log('open login');
     }

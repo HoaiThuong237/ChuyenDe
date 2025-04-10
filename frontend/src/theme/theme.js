@@ -40,6 +40,12 @@ const theme = createTheme({
             fontSize: "1.3rem",
             fontWeight: 400,
         },
+        body2: {
+            fontFamily: "Baloo 2, cursive",
+            fontSize: "1rem",
+            fontWeight: 400,
+            color: "#333",
+        },
         button: {
             fontFamily: "Baloo 2, cursive",
             textTransform: "none",
@@ -104,6 +110,15 @@ const theme = createTheme({
                         backgroundColor: "#fff",
                         color: "#ff9800"
                     }
+                },
+            },
+        },
+        MuiDialog: {
+            styleOverrides: {
+                paper: {
+                    width: "400px",
+                    borderRadius: "12px",
+                    backgroundColor: "#f8f9fa",
                 },
             },
         }
