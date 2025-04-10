@@ -8,6 +8,8 @@ import Login from './pages/login/index.js';
 import Register from './pages/register/index.js';
 import Forgotpass from './pages/forgotpass/index.js';
 import Introduce from './pages/introduce';
+import ChatAI from './pages/ai';
+
 import ProtectedRoute from './protectroute.js';
 import reportWebVitals from './reportWebVitals';
 
@@ -29,6 +31,7 @@ const  App = () =>{
                 <Route path='/forgotpass' element={<Forgotpass />} />
                 <Route path="/introduce" element={<Introduce />} />
                 <Route path="*" element={<Navigate to="/" />} />
+                <Route path="/ai" element={<ChatAI />} />
               </Routes>
         </ThemeProvider>
       </Router>

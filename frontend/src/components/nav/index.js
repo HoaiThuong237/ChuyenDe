@@ -73,7 +73,7 @@ const Nav = () => {
                 <ListItemIcon><SearchIcon/></ListItemIcon>
                 <ListItemText primary="Tìm kiếm"/>
               </ListItemButton>
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate('/ai')}>
                 <ListItemIcon><AssistantIcon/></ListItemIcon>
                 <ListItemText primary="AI"/>
               </ListItemButton>
@@ -94,12 +94,10 @@ const Nav = () => {
                           height: '40px',
                         }}/>
             </IconButton>
-            <IconButton color="primary" >
-              <AssistantIcon sx={{
-                          width: '40px',
-                          height: '40px',
-                        }}/>
-            </IconButton>
+            <IconButton color="primary" onClick={() => navigate('/ai')}>
+  <AssistantIcon sx={{ width: '40px', height: '40px' }} />
+</IconButton>
+
           </Stack>
          }</Box>
       </Drawer>
