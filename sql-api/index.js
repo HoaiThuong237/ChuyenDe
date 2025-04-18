@@ -5,7 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const sql = require("mssql");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 require("dotenv").config();
 
 console.log("📦 ENV DB_USER:", process.env.DB_USER);
@@ -70,7 +70,7 @@ app.post("/login", async (req, res) => {
     }
 
     const user = result.recordset[0];
-    const isMatch = await bcrypt.compare(Password, user.Password);
+    const isMatch = await bcryptjs.compare(Password, user.Password);
     if (!isMatch) {
       return res.status(401).json({ error: "Thông tin đăng nhập không hợp lệ" });
     }
@@ -107,7 +107,7 @@ app.post("/register", async (req, res) => {
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(Password, 10);
+    const hashedPassword = await bcryptjs.hash(Password, 10);
     const checkUserQuery = "SELECT * FROM Users WHERE Username = @username OR Email = @email";
     const checkUser = await pool
       .request()
