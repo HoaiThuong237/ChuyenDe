@@ -55,12 +55,23 @@ const Register = () => {
         console.log("Dữ liệu gửi lên:", { Name, Username, Email, Password });
 
         // Gửi request đăng ký đến API backend
-        try {
-            const response = await fetch("http://localhost:5000/register", {
+        //deploy
+        // try {
+        //     const response = await fetch("https://sql-monan.onrender.com/register", {
+        //         method: "POST",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify({ Name, Username, Email, Password })
+        //     });
+
+
+            //localhost
+            try {
+            const response = await fetch("https://localhost:5000/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ Name, Username, Email, Password })
             });
+
 
             const data = await response.json();
 

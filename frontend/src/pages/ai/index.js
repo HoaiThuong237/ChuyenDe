@@ -1,9 +1,13 @@
 
 // import React, { useState } from "react";
+// import { ArrowLeft } from "lucide-react";
 
 // function ChatAI() {
 //   const [messages, setMessages] = useState([
-//     { text: "Xin chào 🧑‍🍳 <strong>Mình là trợ lý nấu ăn thông minh</strong>. Mình có thể giúp gì cho bạn?", isUser: false },
+//     {
+//       text: "Xin chào 🧑‍🍳 <strong>Mình là trợ lý nấu ăn thông minh</strong>. Mình có thể giúp gì cho bạn?",
+//       isUser: false,
+//     },
 //   ]);
 //   const [inputText, setInputText] = useState("");
 //   const [loading, setLoading] = useState(false);
@@ -88,15 +92,43 @@
 //   };
 
 //   return (
-//     <div style={{ padding: "20px", background: "#fceaea", height: "100vh" }}>
-//       <h2>Trò chuyện với AI</h2>
+//     <div
+//       style={{
+//         display: "flex",
+//         flexDirection: "column",
+//         height: "100vh",
+//         background: "#fef9f4",
+//       }}
+//     >
+//       {/* Header */}
 //       <div
 //         style={{
-//           background: "white",
-//           padding: "10px",
-//           marginBottom: "10px",
+//           background: "#ffa500",
+//           padding: "10px 20px",
+//           color: "white",
+//           fontWeight: "bold",
+//           display: "flex",
+//           alignItems: "center",
 //         }}
 //       >
+//         <button
+//           onClick={() => window.history.back()}
+//           style={{
+//             background: "transparent",
+//             border: "none",
+//             color: "white",
+//             fontSize: "20px",
+//             marginRight: "10px",
+//             cursor: "pointer",
+//           }}
+//         >
+//           ⬅
+//         </button>
+//         Trợ lý nấu ăn AI
+//       </div>
+  
+//       {/* Chat content */}
+//       <div style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
 //         {messages.map((msg, index) => (
 //           <div
 //             key={index}
@@ -108,44 +140,77 @@
 //             <div
 //               style={{
 //                 display: "inline-block",
-//                 background: "#e0e0e0",
-//                 padding: "10px",
-//                 borderRadius: "10px",
-//                 maxWidth: "70%",
+//                 background: msg.isUser ? "#ffe0b2" : "#f0f0f0",
+//                 padding: "12px 16px",
+//                 borderRadius: "16px",
+//                 maxWidth: "80%",
+//                 fontSize: "16px",
+//                 lineHeight: "1.5",
 //               }}
 //               dangerouslySetInnerHTML={{ __html: msg.text }}
 //             />
 //           </div>
 //         ))}
 //       </div>
-//       <div>
+  
+//       {/* Chat input */}
+//       <div
+//         style={{
+//           display: "flex",
+//           padding: "12px 16px",
+//           background: "white",
+//           borderTop: "1px solid #ccc",
+//         }}
+//       >
 //         <input
 //           type="text"
 //           value={inputText}
 //           onChange={(e) => setInputText(e.target.value)}
 //           placeholder="Nhập nguyên liệu hoặc câu hỏi..."
-//           style={{ padding: "10px", width: "70%" }}
+//           style={{
+//             flex: 1,
+//             padding: "12px",
+//             fontSize: "16px",
+//             borderRadius: "8px",
+//             border: "1px solid #ccc",
+//           }}
 //         />
 //         <button
 //           onClick={handleSend}
 //           style={{
-//             padding: "10px 20px",
-//             background: "orange",
-//             border: "none",
-//             cursor: "pointer",
 //             marginLeft: "10px",
+//             padding: "12px 24px",
+//             background: "#ffa500",
+//             color: "white",
+//             fontWeight: "bold",
+//             border: "none",
+//             borderRadius: "8px",
+//             cursor: "pointer",
 //           }}
 //         >
-//           {loading ? "Đang gửi..." : "Gửi"}
+//           {loading ? "..." : "Gửi"}
 //         </button>
 //       </div>
 //     </div>
 //   );
+  
 // }
 
 // export default ChatAI;
+
+
 import React, { useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import {
+  Box,
+  Typography,
+  TextField,
+  IconButton,
+  Button,
+  CircularProgress,
+  Paper,
+  Avatar,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function ChatAI() {
   const [messages, setMessages] = useState([
@@ -237,108 +302,108 @@ function ChatAI() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-        background: "#fef9f4",
-      }}
-    >
+    <Box display="flex" flexDirection="column" height="100vh" bgcolor="#fef9f4">
       {/* Header */}
-      <div
-        style={{
-          background: "#ffa500",
-          padding: "10px 20px",
-          color: "white",
-          fontWeight: "bold",
-          display: "flex",
-          alignItems: "center",
-        }}
+      <Box
+        display="flex"
+        alignItems="center"
+        bgcolor="#ffa500"
+        color="white"
+        p={2}
       >
-        <button
-          onClick={() => window.history.back()}
-          style={{
-            background: "transparent",
-            border: "none",
-            color: "white",
-            fontSize: "20px",
-            marginRight: "10px",
-            cursor: "pointer",
-          }}
-        >
-          ⬅
-        </button>
-        Trợ lý nấu ăn AI
-      </div>
-  
-      {/* Chat content */}
-      <div style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+        <IconButton onClick={() => window.history.back()} sx={{ color: "white" }}>
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography variant="h6" fontWeight="bold">
+          Trợ lý nấu ăn AI
+        </Typography>
+      </Box>
+
+      {/* Chat messages */}
+      <Box flex={1} overflow="auto" p={2}>
         {messages.map((msg, index) => (
-          <div
+          <Box
             key={index}
-            style={{
-              textAlign: msg.isUser ? "right" : "left",
-              margin: "10px 0",
-            }}
+            display="flex"
+            justifyContent={msg.isUser ? "flex-end" : "flex-start"}
+            mb={2}
           >
-            <div
-              style={{
-                display: "inline-block",
-                background: msg.isUser ? "#ffe0b2" : "#f0f0f0",
-                padding: "12px 16px",
-                borderRadius: "16px",
-                maxWidth: "80%",
-                fontSize: "16px",
-                lineHeight: "1.5",
+            {!msg.isUser && (
+              <Avatar
+                sx={{ bgcolor: "#ffa500", width: 32, height: 32, mr: 1 }}
+              >
+                AI
+              </Avatar>
+            )}
+            <Paper
+              elevation={3}
+              sx={{
+                p: 2,
+                bgcolor: msg.isUser ? "#ffe0b2" : "#f0f0f0",
+                maxWidth: "75%",
               }}
-              dangerouslySetInnerHTML={{ __html: msg.text }}
-            />
-          </div>
+            >
+              <div
+                style={{ whiteSpace: "pre-wrap" }}
+                dangerouslySetInnerHTML={{ __html: msg.text }}
+              />
+            </Paper>
+            {msg.isUser && (
+              <Avatar sx={{ bgcolor: "#ffa500", width: 32, height: 32, ml: 1 }}>
+                Bạn
+              </Avatar>
+            )}
+          </Box>
         ))}
-      </div>
-  
+      </Box>
+
       {/* Chat input */}
-      <div
-        style={{
-          display: "flex",
-          padding: "12px 16px",
-          background: "white",
-          borderTop: "1px solid #ccc",
-        }}
+      <Box
+        display="flex"
+        alignItems="center"
+        p={2}
+        borderTop="1px solid #ccc"
+        bgcolor="white"
       >
-        <input
-          type="text"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+        <TextField
+          fullWidth
+          variant="outlined"
+          size="small"
           placeholder="Nhập nguyên liệu hoặc câu hỏi..."
-          style={{
-            flex: 1,
-            padding: "12px",
-            fontSize: "16px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
+          value={inputText}
+          multiline
+          maxRows={6}
+          onChange={(e) => setInputText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault(); 
+              handleSend();
+            }
+          }}
+          sx={{
+            bgcolor: "#fff8f0",
+            borderRadius: 2,
+            "& .MuiOutlinedInput-root": {
+              borderRadius: 2,
+            },
           }}
         />
-        <button
+        <Button
           onClick={handleSend}
-          style={{
-            marginLeft: "10px",
-            padding: "12px 24px",
-            background: "#ffa500",
-            color: "white",
-            fontWeight: "bold",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
+          variant="contained"
+          sx={{
+            ml: 2,
+            bgcolor: "#ffa500",
+            "&:hover": {
+              bgcolor: "#e59400",
+            },
           }}
         >
-          {loading ? "..." : "Gửi"}
-        </button>
-      </div>
-    </div>
+          {loading ? <CircularProgress size={20} sx={{ color: "white" }} /> : "Gửi"}
+        </Button>
+      </Box>
+    </Box>
   );
-  
 }
 
 export default ChatAI;
