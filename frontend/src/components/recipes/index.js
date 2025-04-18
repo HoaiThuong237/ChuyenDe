@@ -15,33 +15,68 @@ const Recipes = () => {
     
     const navigate = useNavigate();
     const location = useLocation();
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const recipe = location.state;
     console.log('recipe', recipe);
 
+    const [comments, setComments] = useState([]);
     const [commentCount, setCommentCount] = useState(0);
+    const [commentText, setCommentText] = useState('');
     
 
     const handleBack = () =>{
         navigate(-1)
     }
 
+    //comment
+    const fetchComments = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/recipes/${recipe.RecipeID}/comments/list`);
+            setComments(res.data);
+        } catch (error) {
+            console.error("Lỗi khi lấy danh sách bình luận:", error);
+        }
+    };
     useEffect(() => {
-        const fetchCommentCount = async () => {
-            try {
-                const res = await axios.get(`http://localhost:5000//recipes/${recipe.Recipe_id}/comments`);
-                setCommentCount(res.data.Comment_Count);
-            } catch (error) {
-                console.error("Lỗi khi lấy số lượng bình luận:", error);
-            }
-        };
-    
-        if (recipe?.Recipe_id) {
+        if (recipe?.RecipeID) {
+            fetchComments();
+        }
+    }, [recipe]);
+
+    //dem so luong binh luan
+    const fetchCommentCount = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/recipes/${recipe.RecipeID}/comments`);
+            setCommentCount(res.data.Comment_Count);
+        } catch (error) {
+            console.error("Lỗi khi lấy số lượng bình luận:", error);
+        }
+    };
+    useEffect(() => {    
+        if (recipe?.RecipeID) {
             fetchCommentCount();
         }
     }, [recipe]);
     console.log('commentCount', commentCount);
+    console.log('recipe.Recipe_id', recipe.RecipeID);
 
+    //them binh luan
+    const handleAddComment = async () => {
+        if (!commentText.trim()) return;
+
+        try {
+            await axios.post(`http://localhost:5000/recipes/${recipe.RecipeID}/comments/add`, {
+                userId: user.ID,
+                commentText: commentText.trim(),
+            });
+            setCommentText('');
+            fetchComments();
+            fetchCommentCount();
+        } catch (error) {
+            console.error("Lỗi khi thêm bình luận:", error);
+        }        
+    }
     return (
         <Stack spacing={2}>
             <IconButton onClick={handleBack}
@@ -99,21 +134,49 @@ const Recipes = () => {
                         <TextField variant="outlined" 
                                     placeholder="Nhập bình luận" 
                                     fullWidth
+                                    value={commentText}
+                                    onChange={(e) => setCommentText(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
                                     InputProps={{
                                         endAdornment: (
-                                        <IconButton color="primary">
+                                        <IconButton color="primary" onClick={handleAddComment}>
                                             <SendIcon />
                                         </IconButton>
                                         ),
                                     }}
                         />
                     </Stack>
-                    {commentCount === 0 && (
+                    {commentCount === 0 ? 
+                        (
                             <Typography variant="body1" 
                                         sx={{paddingLeft: '350px'}}>
                                 Hãy trở thành người đầu tiên bình luận về công thức này!
                             </Typography>
-                        )}
+                        )
+                    :
+                        (
+                            <Stack component="ul" sx={{ pl: 2 }}>
+                                {comments.map((comment, index) => (
+                                    <Box component="li" sx={{ padding: '10px', listStyle: 'none' }} key={index}>
+                                        <Stack direction={"row"} spacing={2}>
+                                            <Avatar src={comment.Avatar_url} sx={{ bgcolor: 'primary.main', color: 'white' }} />
+                                            <Stack spacing={0}>
+                                                <Stack direction={"row"} spacing={1}>
+                                                    <Typography variant="body2">{comment.Author}</Typography>
+                                                    <Typography variant="body2">
+                                                    {new Date(comment.Created_at).toLocaleDateString("vi-VN")}
+                                                    </Typography>
+                                                </Stack>
+                                                <Typography variant="body1">
+                                                    {comment.Comment_text}
+                                                </Typography>
+                                            </Stack>
+                                        </Stack>
+                                    </Box>
+                                ))}
+                            </Stack>
+                        )
+                    }
                 </Stack>
             </Stack>
         </Stack>

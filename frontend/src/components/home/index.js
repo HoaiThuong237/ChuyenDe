@@ -28,7 +28,7 @@ const HomeComponent = () => {
         .catch((error) => {
             console.error("Lỗi khi lấy danh sách món ăn:",error);
         });
-    })
+    }, []);
     const handleOpenRecipes = (recipe) => {
         navigate("congthuc", { state: recipe });   
         console.log(recipe);

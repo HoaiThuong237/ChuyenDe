@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Box, Button, IconButton, Stack, TextField, Typography } from "@mui/material";
 
+import handleUploadImage from "../uploadimage";
+
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-
 const AddRecipe = () => {
 
     const user=JSON.parse(localStorage.getItem("user"));
@@ -18,6 +19,10 @@ const AddRecipe = () => {
         name: '',quantity: ''
     }]);
     const [steps, setSteps] = useState(['']);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [photo, setPhoto] = useState(null);
+    const [photoPreview, setPhotoPreview] = useState(null);
 
     const handleAddIngredient = () => {
         setIngredients([...ingredients, {
@@ -51,6 +56,53 @@ const AddRecipe = () => {
         navigate(-1)
     }
 
+    const handleSaveRecipe = async () => {
+        try {
+            const formData = new FormData();
+    
+            formData.append("Title", title);
+            formData.append("Description", description);
+            formData.append("Instruction", steps.join("\n"));
+            formData.append("User_id", user.ID);
+    
+            if (photo) {
+                formData.append("photo", photo);
+            }
+    
+            const formattedIngredients = ingredients.map((ingredient) => {
+                const match = ingredient.quantity.match(/^([\d.]+)\s*(\D+)$/);
+                const quantity = match ? parseFloat(match[1]) : 0;
+                const unit = match ? match[2] : '';
+                return {
+                    Name: ingredient.name,
+                    Quantity: quantity,
+                    Unit: unit
+                };
+            });
+    
+            formData.append("Ingredients", JSON.stringify(formattedIngredients));
+    
+            const res = await fetch("http://localhost:5000/recipes/add", {
+                method: "POST",
+                body: formData
+            });
+    
+            const data = await res.json();
+    
+            if (res.ok) {
+                console.log(data);
+                alert("Thêm công thức thành công!");
+                navigate("/congthuc");
+            } else {
+                throw new Error(data.error || "Đã xảy ra lỗi.");
+            }
+        } catch (error) {
+            console.error("❌ Lỗi khi thêm công thức:", error);
+            alert("Thêm thất bại!");
+        }
+    };
+    
+
     return (
         <Stack spacing={2}>
             <Stack direction={"row"} spacing={2}>
@@ -69,7 +121,8 @@ const AddRecipe = () => {
                 <Button variant="contained" 
                         color="success"
                         startIcon={<SaveIcon />}
-                        sx={{color: 'white'}}>
+                        sx={{color: 'white'}}
+                        onClick={handleSaveRecipe}>
                     Lưu
                 </Button>
             </Stack>
@@ -79,17 +132,40 @@ const AddRecipe = () => {
                     <Box sx={{width: '400px', height: '300px', 
                             bgcolor: '#f4e4e4',
                             cursor: 'pointer',
-                            display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <Stack spacing={2} alignItems={'center'}>
-                            <AddAPhotoIcon sx={{width: '100px', height: '100px'}} />
-                            <Typography variant="body2">Chia sẻ với mọi người thành quả của bạn nào!</Typography>
-                        </Stack>
+                            display: 'flex', justifyContent: 'center', alignItems: 'center'}}
+                            onClick={() => document.getElementById('photo').click()}>
+                        {photoPreview ?
+                            (
+                                <img src={photoPreview} alt="preview" style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                            ) :
+                            (
+                                <Stack spacing={2} alignItems={'center'}>
+                                    <AddAPhotoIcon sx={{width: '100px', height: '100px'}} />
+                                    <Typography variant="body2">Chia sẻ với mọi người thành quả của bạn nào!</Typography>
+                                </Stack>
+                            )
+                        }
+                        <input 
+                            id="photo" 
+                            type="file" 
+                            accept="image/*" 
+                            style={{display: 'none'}} 
+                            onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                    setPhoto(file);
+                                    setPhotoPreview(URL.createObjectURL(file));
+                                }
+                            }}
+                         />
                     </Box>
                     <Stack spacing={2}>
                         <TextField variant="filled"
                                     placeholder="Tên công thức"
                                     fullWidth
                                     sx={{width: '700px'}}
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
                                     />
                         <Stack direction={"row"} spacing={2}>
                             <Avatar src={user.Avatar_url} sx={{ bgcolor: 'primary.main', color: 'white' }} />
@@ -103,6 +179,8 @@ const AddRecipe = () => {
                                     rows={4}
                                     fullWidth
                                     sx={{width: '700px'}}
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
                         />
                     </Stack>
                 </Stack>
