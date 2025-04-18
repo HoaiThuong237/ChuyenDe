@@ -32,13 +32,21 @@ const Login = () => {
             setError("Vui lòng nhập đầy đủ thông tin.");
             return;
         }
-    
-        try {
-            const response = await fetch("https://sql-monan.onrender.com/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ login: identifier, Password }),
-            });
+        //deploy
+        // try {
+        //     const response = await fetch("https://sql-monan.onrender.com/login", {
+        //         method: "POST",
+        //         headers: { "Content-Type": "application/json" },
+        //         body: JSON.stringify({ login: identifier, Password }),
+        //     });
+
+            //localhost
+            try {
+                const response = await fetch("http://localhost:5000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ login: identifier, Password }),
+                });
     
             const data = await response.json();
             console.log(data);
