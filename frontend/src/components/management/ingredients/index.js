@@ -25,7 +25,7 @@ const ManagementIngredients = () => {
 
   const fetchIngredients = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/ingredients");
+      const res = await axios.get("https://sql-monan.onrender.com/ingredients");
       setIngredients(res.data);
     } catch (err) {
       console.error("❌ Lỗi khi tải danh sách users:", err);
@@ -35,7 +35,7 @@ const ManagementIngredients = () => {
   const handleDelete = async (id) => {
     if(window.confirm("Bạn có chắc chắn muốn xoá nguyên liệu này không?")){
         try {
-        await axios.put(`http://localhost:5000/ingredients/delete/${id}`);
+        await axios.put(`https://sql-monan.onrender.com/ingredients/delete/${id}`);
         window.alert("Xóa nguyên liệu thành công.")
         fetchIngredients();
         } catch (err) {

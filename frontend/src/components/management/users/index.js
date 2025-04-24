@@ -32,7 +32,7 @@ const ManagementUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/users");
+      const res = await axios.get("https://sql-monan.onrender.com/users");
       setUsers(res.data);
     } catch (err) {
       console.error("❌ Lỗi khi tải danh sách users:", err);
@@ -42,7 +42,7 @@ const ManagementUsers = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa user này không?")) {
       try {
-        await axios.put(`http://localhost:5000/users/delete/${id}`);
+        await axios.put(`https://sql-monan.onrender.com/users/delete/${id}`);
         fetchUsers();
       } catch (err) {
         console.error("❌ Lỗi khi xóa user:", err);
@@ -52,7 +52,7 @@ const ManagementUsers = () => {
 
   const handleActive = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/users/active/${id}`);
+      await axios.put(`https://sql-monan.onrender.com/users/active/${id}`);
       fetchUsers();
     } catch (err) {
       console.error("❌ Lỗi khi mở khóa user:", err);
