@@ -145,7 +145,7 @@ app.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { ID: user.ID, Username: user.Username, Email: user.Email, Role: user.Role },
+      { ID: user.ID, Username: user.Username, Email: user.Email, Role: user.Role, Name: user.Name, Active: user.Active },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -159,6 +159,7 @@ app.post("/login", async (req, res) => {
         Email: user.Email,
         Name: user.Name,
         Role: user.Role,
+        Active: user.Active
       }
     });
   } catch (err) {
