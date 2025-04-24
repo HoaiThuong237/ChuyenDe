@@ -25,7 +25,7 @@ const ManagementRecipes = () => {
 
   const fetchRecipes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/recipes");
+      const res = await axios.get("https://sql-monan.onrender.com/recipes");
       setRecipes(res.data);
     } catch (err) {
       console.error("❌ Lỗi khi tải danh sách công thức:", err);
@@ -35,7 +35,7 @@ const ManagementRecipes = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa công thức này không?")) {
       try {
-        await axios.put(`http://localhost:5000/recipes/delete/${id}`);
+        await axios.put(`https://sql-monan.onrender.com/recipes/delete/${id}`);
         window.alert("Xóa công thức thành công.");
         fetchRecipes();
       } catch (err) {

@@ -41,7 +41,7 @@ const UpdateProfile = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/update-profile", {
+      const response = await fetch("https://sql-monan.onrender.com/update-profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -71,7 +71,7 @@ const UpdateProfile = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/forgot-password", {
+      const response = await fetch("https://sql-monan.onrender.com/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

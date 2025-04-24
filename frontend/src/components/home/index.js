@@ -21,7 +21,7 @@ const HomeComponent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:5000/recipes")
+        axios.get("https://sql-monan.onrender.com/recipes")
         .then((response) => {
             setRecipes(response.data);
         })
@@ -52,7 +52,7 @@ const HomeComponent = () => {
                             <CardMedia 
                                 component="img"
                                 height={140}
-                                image={`http://localhost:5000/${recipe.Image_url}` || "/images/default.jpg"}  
+                                image={`https://sql-monan.onrender.com/${recipe.Image_url}` || "/images/default.jpg"}  
                                 alt={recipe.Title}
                                 sx={{ objectFit: "cover" }}
                             />

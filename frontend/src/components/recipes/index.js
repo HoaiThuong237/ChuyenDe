@@ -32,7 +32,7 @@ const Recipes = () => {
     //comment
     const fetchComments = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/recipes/${recipe.RecipeID}/comments/list`);
+            const res = await axios.get(`https://sql-monan.onrender.com/recipes/${recipe.RecipeID}/comments/list`);
             setComments(res.data);
         } catch (error) {
             console.error("Lỗi khi lấy danh sách bình luận:", error);
@@ -47,7 +47,7 @@ const Recipes = () => {
     //dem so luong binh luan
     const fetchCommentCount = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/recipes/${recipe.RecipeID}/comments`);
+            const res = await axios.get(`https://sql-monan.onrender.com/recipes/${recipe.RecipeID}/comments`);
             setCommentCount(res.data.Comment_Count);
         } catch (error) {
             console.error("Lỗi khi lấy số lượng bình luận:", error);
@@ -66,7 +66,7 @@ const Recipes = () => {
         if (!commentText.trim()) return;
 
         try {
-            await axios.post(`http://localhost:5000/recipes/${recipe.RecipeID}/comments/add`, {
+            await axios.post(`https://sql-monan.onrender.com/recipes/${recipe.RecipeID}/comments/add`, {
                 userId: user.ID,
                 commentText: commentText.trim(),
             });
@@ -86,7 +86,7 @@ const Recipes = () => {
             <Stack p={2} spacing={2}>
                 <Stack direction={"row"} spacing={2}>
                     <Box >
-                        <img src={`http://localhost:5000/${recipe.Image_url}`} alt={recipe.Title} style={{width: '400px', height: '300px'}}/>
+                        <img src={`https://sql-monan.onrender.com/${recipe.Image_url}`} alt={recipe.Title} style={{width: '400px', height: '300px'}}/>
                     </Box>
                     <Stack spacing={2}>
                         <Typography variant="h3">{recipe.Title}</Typography>

@@ -95,7 +95,7 @@ const AddRecipe = () => {
         
                 formData.append("Ingredients", JSON.stringify(formattedIngredients));
         
-                const res = await fetch("http://localhost:5000/recipes/add", {
+                const res = await fetch("https://sql-monan.onrender.com/recipes/add", {
                     method: "POST",
                     body: formData
                 });
