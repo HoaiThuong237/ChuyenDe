@@ -15,7 +15,6 @@ import { Paper,
         ListItemText} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import AddIcon from '@mui/icons-material/Add';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -24,8 +23,8 @@ const Header = () => {
 
     const user = JSON.parse(localStorage.getItem("user"));
     const [anchorEl, setAnchorEl] = useState(null);
+    const [search, setSearch] = useState("");
     const open = Boolean(anchorEl);
-
     const navigate = useNavigate();
 
     const handleClick = (event) => {
@@ -40,12 +39,31 @@ const Header = () => {
         navigate("/bepnhaminh/trangcanhan");
     }
 
+    const handleOpenManagementUser = () => {
+        navigate("/bepnhaminh/quanlynguoidung");
+    }
+
+    const handleOpenManagementRecipe = () => {
+        navigate("/bepnhaminh/quanlycongthuc");
+    }
+
+    const handleOpenManagementIngredient = () => {
+        navigate("/bepnhaminh/quanlynguyenlieu");
+    }
+
     const handleOpenAddRecipe = () => {
         navigate("/bepnhaminh/themcongthuc");
     }
     const handleLogout = () => {
         localStorage.removeItem("rememberLogin");
         window.location.href = "/gioithieu";
+    }
+
+    const handleSearch = () => {
+        if (search.trim()) {
+            navigate(`/bepnhaminh/timkiem?q=${encodeURIComponent(search.trim())}`);
+            setSearch('');  
+        }
     }
     return (
         <Paper direction="row" elevation={1}
@@ -84,6 +102,8 @@ const Header = () => {
                     <TextField 
                         size="small" fullWidth
                         placeholder="Tìm kiếm..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                         slotProps={
                             {
                                 input: {
@@ -91,7 +111,12 @@ const Header = () => {
                                         <IconButton color="primary">
                                             <SearchIcon />
                                         </IconButton>
-                                    )
+                                    ),
+                                    onKeyDown: (e) => {
+                                        if (e.key === "Enter") {
+                                            handleSearch();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -99,7 +124,8 @@ const Header = () => {
                     <Button variant="contained"
                              sx={{borderRadius: '8px',
                                   height: '40px', width: '120px',
-                                  color: 'white'}}>
+                                  color: 'white'}}
+                             onClick={handleSearch}>
                         Tìm kiếm
                     </Button>
                 </Stack>
@@ -117,7 +143,14 @@ const Header = () => {
                             </Stack>
                         </Stack>
                     </MenuItem>
-                    <MenuItem onClick={handleOpenProfile} divider= {true}>Trang cá nhân</MenuItem>
+                    <MenuItem onClick={handleOpenProfile} divider= {user.Role === "admin" ? false : true}>Trang cá nhân</MenuItem>
+                    {user.Role === "admin" ? <>
+                        <MenuItem onClick={handleOpenManagementUser}>Quản lý người dùng</MenuItem>
+                        <MenuItem onClick={handleOpenManagementRecipe}>Quản lý công thức</MenuItem>
+                        <MenuItem onClick={handleOpenManagementIngredient} divider= {true}>Quản lý nguyên liệu</MenuItem>
+                    </> : (
+                        null
+                    )}
                     <MenuItem onClick={handleLogout} >
                         <ListItemIcon>
                             <LogoutIcon />
