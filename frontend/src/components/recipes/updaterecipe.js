@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Avatar, Box, Button, IconButton, Stack, TextField, Typography } from "@mui/material";
 
 import handleUploadImage from "../uploadimage";
@@ -10,10 +10,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-const AddRecipe = () => {
+const UpdateRecipe = () => {
 
     const user=JSON.parse(localStorage.getItem("user"));
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const recipeId = location.state?.RecipeID;
+    console.log(recipeId);
     
     const [ingredients, setIngredients] = useState([{
         name: '',quantity: ''
@@ -32,6 +36,31 @@ const AddRecipe = () => {
             }
         };
     }, [photoPreview]);
+
+    useEffect(() => {
+        if (location.state) {
+            const recipe = location.state;
+    
+            setTitle(recipe.Title || '');
+            setDescription(recipe.Description || '');
+    
+            if (recipe.Instruction) {
+                setSteps(recipe.Instruction.split("\n"));
+            }
+    
+            if (recipe.Ingredients && Array.isArray(recipe.Ingredients)) {
+                setIngredients(recipe.Ingredients.map(i => ({
+                    name: i.Name,
+                    quantity: `${i.Quantity || ''} `
+                })));
+            }
+    
+            if (recipe.Image_url) {
+                setPhotoPreview(`http://localhost:5000/${recipe.Image_url}`);
+            }
+        }
+    }, [location.state]);
+    
     
     const handleAddIngredient = () => {
         setIngredients([...ingredients, {
@@ -95,8 +124,8 @@ const AddRecipe = () => {
         
                 formData.append("Ingredients", JSON.stringify(formattedIngredients));
         
-                const res = await fetch("http://localhost:5000/recipes/add", {
-                    method: "POST",
+                const res = await fetch(`http://localhost:5000/recipes/update/${recipeId}`, {
+                    method: "PUT",
                     body: formData
                 });
         
@@ -104,14 +133,14 @@ const AddRecipe = () => {
         
                 if (res.ok) {
                     console.log(data);
-                    alert("Thêm công thức thành công!");
-                    navigate("/congthuc");
+                    alert("Cập nhật công thức thành công!");
+                    navigate(-1);
                 } else {
                     throw new Error(data.error || "Đã xảy ra lỗi.");
                 }
             } catch (error) {
-                console.error("❌ Lỗi khi thêm công thức:", error);
-                alert("Thêm thất bại!");
+                console.error("❌ Lỗi khi cập nhật công thức:", error);
+                alert("Cập nhật thất bại!");
             }
         }
     };
@@ -147,7 +176,7 @@ const AddRecipe = () => {
                 </Button>
             </Stack>
             <Stack p={2} spacing={2} >
-                <Typography variant="h3">Thêm công thức</Typography>
+                <Typography variant="h3">Chỉnh sửa công thức</Typography>
                 <Stack direction={"row"} spacing={2}>
                     <Box sx={{width: '400px', height: '300px', 
                             bgcolor: '#f4e4e4',
@@ -257,4 +286,4 @@ const AddRecipe = () => {
     );
 };
 
-export default AddRecipe;
+export default UpdateRecipe;

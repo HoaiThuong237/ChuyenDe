@@ -86,7 +86,7 @@ const Recipes = () => {
             <Stack p={2} spacing={2}>
                 <Stack direction={"row"} spacing={2}>
                     <Box >
-                        <img src={recipe.Image_url} alt={recipe.Title} style={{width: '400px', height: '300px'}}/>
+                        <img src={`http://localhost:5000/${recipe.Image_url}`} alt={recipe.Title} style={{width: '400px', height: '300px'}}/>
                     </Box>
                     <Stack spacing={2}>
                         <Typography variant="h3">{recipe.Title}</Typography>

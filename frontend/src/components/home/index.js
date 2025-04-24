@@ -52,7 +52,7 @@ const HomeComponent = () => {
                             <CardMedia 
                                 component="img"
                                 height={140}
-                                image={recipe.Image_url || "/images/default.jpg"}  
+                                image={`http://localhost:5000/${recipe.Image_url}` || "/images/default.jpg"}  
                                 alt={recipe.Title}
                                 sx={{ objectFit: "cover" }}
                             />
