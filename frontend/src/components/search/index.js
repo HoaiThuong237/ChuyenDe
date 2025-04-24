@@ -94,7 +94,7 @@ const Search = () => {
                                     </CardContent>
                                     <CardHeader
                                         avatar={
-                                            <Avatar src={recipe.Avatar_url} sx={{bgcolor: 'primary.main', color: 'white'}}/>
+                                            <Avatar src={`http://localhost:5000/${recipe.AuthorAvatar}`} sx={{bgcolor: 'primary.main', color: 'white'}}/>
                                         }
                                         title={`${recipe.Author}`}
                                         subheader={new Date(recipe.Created_at).toLocaleDateString("vi-VN")}                            />

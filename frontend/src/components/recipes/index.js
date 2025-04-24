@@ -91,7 +91,7 @@ const Recipes = () => {
                     <Stack spacing={2}>
                         <Typography variant="h3">{recipe.Title}</Typography>
                         <Stack direction={"row"} spacing={2}>
-                            <Avatar src={recipe.Avatar_url} sx={{ bgcolor: 'primary.main', color: 'white' }} />
+                            <Avatar src={`http://localhost:5000/${recipe.AuthorAvatar}`} sx={{ bgcolor: 'primary.main', color: 'white' }} />
                             <Stack spacing={0}>
                                 <Typography variant="body1">{recipe.Author}</Typography>
                                 <Typography variant="body2">
@@ -130,7 +130,7 @@ const Recipes = () => {
                 <Stack spacing={2}  sx={{paddingTop: '40px'}}>
                     <Typography variant="h4">Bình luận ({commentCount})</Typography>
                     <Stack direction={"row"} spacing={2}>
-                        <Avatar src={recipe.Avatar_url} sx={{ bgcolor: 'primary.main', color: 'white' }} />
+                        <Avatar src={`http://localhost:5000/${user.Avatar_url}`} sx={{ bgcolor: 'primary.main', color: 'white' }} />
                         <TextField variant="outlined" 
                                     placeholder="Nhập bình luận" 
                                     fullWidth
@@ -159,7 +159,7 @@ const Recipes = () => {
                                 {comments.map((comment, index) => (
                                     <Box component="li" sx={{ padding: '10px', listStyle: 'none' }} key={index}>
                                         <Stack direction={"row"} spacing={2}>
-                                            <Avatar src={comment.Avatar_url} sx={{ bgcolor: 'primary.main', color: 'white' }} />
+                                            <Avatar src={`http://localhost:5000/${comment.Avatar_url}`} sx={{ bgcolor: 'primary.main', color: 'white' }} />
                                             <Stack spacing={0}>
                                                 <Stack direction={"row"} spacing={1}>
                                                     <Typography variant="body2">{comment.Author}</Typography>

@@ -176,7 +176,8 @@ const UpdateProfile = () => {
   const [name, setName] = useState(storedUser.Name);
   const [email, setEmail] = useState(storedUser.Email);
   const [hover, setHover] = useState(false);
-  const [avatar, setAvatar] = useState(storedUser.avatarUrl || "");
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
 
   const [openPwd, setOpenPwd] = useState(false);
   const [newPassword, setNewPassword] = useState("");
@@ -194,22 +195,26 @@ const UpdateProfile = () => {
       showMessage("Tên và email không được để trống.");
       return;
     }
-
+  
+    const formData = new FormData();
+    formData.append("Username", storedUser.Username);
+    formData.append("Name", name);
+    formData.append("Email", email);
+    if (photo) {
+      formData.append("photo", photo);
+    }
+  
     try {
       const response = await fetch("http://localhost:5000/update-profile", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          Username: storedUser.Username,
-          Name: name,
-          Email: email
-        })
+        body: formData
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(data.user));
-        showMessage(data.message);
+        navigate("/bepnhaminh/trangcanhan");
+        window.alert("Cập nhật thông tin cá nhân thành công!")
       } else {
         showMessage(data.error || "Cập nhật thất bại.");
       }
@@ -218,6 +223,7 @@ const UpdateProfile = () => {
       showMessage("Lỗi khi gọi API.");
     }
   };
+  
 
   const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
@@ -254,10 +260,11 @@ const UpdateProfile = () => {
     const file = e.target.files[0];
     if (file) {
       const imgUrl = URL.createObjectURL(file);
-      setAvatar(imgUrl);
-      // TODO: upload to server nếu cần
+      setPhoto(file); // Lưu file để gửi lên server
+      setPhotoPreview(imgUrl); // Preview ảnh
     }
   };
+  
 
   return (
     <div>
@@ -271,7 +278,8 @@ const UpdateProfile = () => {
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >
-          <Avatar src={avatar} sx={{ width: 100, height: 100 }} />
+          <Avatar src={photoPreview || `http://localhost:5000/${storedUser.Avatar_url}`} 
+                  sx={{ width: 100, height: 100 }} />
           {hover && (
             <Box sx={{
               position: "absolute", inset: 0,
@@ -290,7 +298,7 @@ const UpdateProfile = () => {
         <TextField label="Tên đầy đủ" value={name} onChange={e => setName(e.target.value)} />
         <TextField label="Email" value={email} onChange={e => setEmail(e.target.value)} />
 
-        <Button variant="contained" onClick={() => setOpenPwd(true)} color="info">
+        <Button variant="contained" onClick={() => setOpenPwd(true)} color="primary">
           Đổi mật khẩu
         </Button>
 
