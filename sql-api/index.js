@@ -53,6 +53,71 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage });
+//update profile
+app.put("/update-profile", async (req, res) => {
+  const { Username, Name, Email } = req.body;
+
+  if (!Username || !Name || !Email) {
+    return res.status(400).json({ error: "Thiếu thông tin cập nhật." });
+  }
+
+  try {
+    await pool.request()
+      .input("Name", sql.NVarChar, Name)
+      .input("Email", sql.NVarChar, Email)
+      .input("Username", sql.NVarChar, Username)
+      .query(`
+        UPDATE Users
+        SET Name = @Name, Email = @Email
+        WHERE Username = @Username
+      `);
+
+    const user = await pool.request()
+      .input("Username", sql.NVarChar, Username)
+      .query("SELECT * FROM Users WHERE Username = @Username");
+
+    res.json({
+      message: "Cập nhật thông tin thành công!",
+      user: user.recordset[0],
+    });
+  } catch (err) {
+    console.error("Lỗi cập nhật:", err);
+    res.status(500).json({ error: "Lỗi server", details: err.message });
+  }
+});
+
+//quen mat khau
+app.post("/forgot-password", async (req, res) => {
+  const { login, newPassword } = req.body;
+
+  if (!login || !newPassword) {
+    return res.status(400).json({ error: "Thiếu thông tin." });
+  }
+
+  try {
+    const result = await pool
+      .request()
+      .input("login", sql.NVarChar, login)
+      .query("SELECT * FROM Users WHERE Email = @login OR Username = @login");
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({ error: "Không tìm thấy người dùng." });
+    }
+
+    const hashed = await bcryptjs.hash(newPassword, 10);
+
+    await pool
+      .request()
+      .input("password", sql.NVarChar, hashed)
+      .input("login", sql.NVarChar, login)
+      .query("UPDATE Users SET Password = @password WHERE Email = @login OR Username = @login");
+
+    res.json({ message: "Đổi mật khẩu thành công!" });
+  } catch (err) {
+    console.error("❌ Lỗi reset password:", err);
+    res.status(500).json({ error: "Lỗi server", details: err.message });
+  }
+});
 
 // API Đăng nhập
 app.post("/login", async (req, res) => {
