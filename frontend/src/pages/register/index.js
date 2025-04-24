@@ -56,6 +56,7 @@ const Register = () => {
 
         // Gửi request đăng ký đến API backend
         //deploy
+        
         // try {
         //     const response = await fetch("https://sql-monan.onrender.com/register", {
         //         method: "POST",
@@ -66,7 +67,7 @@ const Register = () => {
 
             //localhost
             try {
-            const response = await fetch("https://localhost:5000/register", {
+            const response = await fetch("http://localhost:5000/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ Name, Username, Email, Password })
