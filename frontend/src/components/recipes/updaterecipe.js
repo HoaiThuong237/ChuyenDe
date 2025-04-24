@@ -56,7 +56,7 @@ const UpdateRecipe = () => {
             }
     
             if (recipe.Image_url) {
-                setPhotoPreview(`http://localhost:5000/${recipe.Image_url}`);
+                setPhotoPreview(`https://sql-monan.onrender.com/${recipe.Image_url}`);
             }
         }
     }, [location.state]);
@@ -124,7 +124,7 @@ const UpdateRecipe = () => {
         
                 formData.append("Ingredients", JSON.stringify(formattedIngredients));
         
-                const res = await fetch(`http://localhost:5000/recipes/update/${recipeId}`, {
+                const res = await fetch(`https://sql-monan.onrender.com/recipes/update/${recipeId}`, {
                     method: "PUT",
                     body: formData
                 });

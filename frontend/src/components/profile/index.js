@@ -27,7 +27,7 @@ const Profile = () => {
 
     const fetchUserRecipes = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/recipes/user/${user.ID}`);
+            const res = await axios.get(`https://sql-monan.onrender.com/recipes/user/${user.ID}`);
             setRecipes(res.data);
             console.log(res.data);
         } catch (error) {
@@ -62,7 +62,7 @@ const Profile = () => {
         const confirmDelete = window.confirm("Bạn chắc chắn muốn xóa công thức này?");
         if (confirmDelete) {
             try {
-                await axios.put(`http://localhost:5000/recipes/delete/${ID}`);
+                await axios.put(`https://sql-monan.onrender.com/recipes/delete/${ID}`);
                 alert("Xóa công thức thành công!");
                 // Cập nhật lại danh sách sau khi xóa
                 setRecipes(prev => prev.filter(recipe => recipe.RecipeID !== ID));
@@ -127,7 +127,7 @@ const Profile = () => {
                                 >
                                 <CardMedia
                                     component="img"
-                                    image={`http://localhost:5000/${recipe.Image_url}` || "/images/default.jpg"}
+                                    image={`https://sql-monan.onrender.com/${recipe.Image_url}` || "/images/default.jpg"}
                                     alt={recipe.Title}
                                     sx={{
                                     width: 250, // Cố định chiều rộng ảnh
