@@ -217,7 +217,7 @@ const UpdateRecipe = () => {
                                     onChange={(e) => setTitle(e.target.value)}
                                     />
                         <Stack direction={"row"} spacing={2}>
-                            <Avatar src={user.Avatar_url} sx={{ bgcolor: 'primary.main', color: 'white' }} />
+                            <Avatar src={`http://localhost:5000/${user.Avatar_url}`} sx={{ bgcolor: 'primary.main', color: 'white' }} />
                             <Stack spacing={0}>
                                 <Typography variant="body1">{user.Name}</Typography>
                             </Stack>

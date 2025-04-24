@@ -130,13 +130,14 @@ const Header = () => {
                     </Button>
                 </Stack>
                 <IconButton onClick={handleClick}>
-                    <Avatar src="/broken-image.jpg" sx={{bgcolor: 'primary.main', color: 'white'}}/>
+                    <Avatar src={user.Avatar_url ? `http://localhost:5000/${user.Avatar_url}` : "/broken-image.jpg"} 
+                    sx={{bgcolor: 'primary.main', color: 'white'}}/>
                 </IconButton>
                 <Menu anchorEl={anchorEl} open={open} onClose={handleClose}
                         slotProps={{paper: {sx: {width: '300px'}}}}>
                     <MenuItem sx={{pointerEvents: 'none'}}>
                         <Stack direction="row" spacing={2}>
-                            <Avatar src="/broken-image.jpg" sx={{bgcolor: 'primary.main', color: 'white'}}/>
+                            <Avatar src={`http://localhost:5000/${user.Avatar_url}`} sx={{bgcolor: 'primary.main', color: 'white'}}/>
                             <Stack>
                             <Typography variant="body1">{user.Name}</Typography>
                             <Typography variant="body2">@{user.Username}</Typography>

@@ -55,9 +55,9 @@ const Login = () => {
             console.log(data);
 
             if (response.ok) {
-                if (data.user.Active === false) {
-                        window.alert("Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
-                        return;
+                if (data.user.Active === false) {           
+                    window.alert("Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.");
+                    return;
                 }
                 localStorage.setItem("user", JSON.stringify(data.user));
                 if (rememberLogin) {

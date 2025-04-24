@@ -82,9 +82,9 @@ const Profile = () => {
             <Stack spacing={2} flexGrow={1}
                     sx={{width: '100%', paddingLeft: '25%', paddingRight: '25%'}}>
                 <Stack direction={"row"} spacing={2}>
-                    <Avatar src="/broken-image.jpg" 
-                            sx={{bgcolor: 'primary.main', 
-                                color: 'white'}} />
+                <Avatar src={user.Avatar_url ? `http://localhost:5000/${user.Avatar_url}` : "/images/default-avatar.jpg"}                            
+                        sx={{bgcolor: 'primary.main', 
+                        color: 'white'}} />
                     <Stack>
                         <Typography variant="h4">{user.Name}</Typography>
                         <Typography variant="body2">@{user.Username}</Typography>

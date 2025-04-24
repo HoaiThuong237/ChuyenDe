@@ -7,6 +7,7 @@ const cors = require("cors");
 const sql = require("mssql");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
+const { request } = require("http");
 require("dotenv").config();
 
 console.log("📦 ENV DB_USER:", process.env.DB_USER);
@@ -54,23 +55,34 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 //update profile
-app.put("/update-profile", async (req, res) => {
+app.put("/update-profile", upload.single("photo"), async (req, res) => {
   const { Username, Name, Email } = req.body;
+
+  const Avatar_url = req.file ? `uploads/${req.file.filename}` : null;
 
   if (!Username || !Name || !Email) {
     return res.status(400).json({ error: "Thiếu thông tin cập nhật." });
   }
 
   try {
-    await pool.request()
+    const request = pool.request()
       .input("Name", sql.NVarChar, Name)
       .input("Email", sql.NVarChar, Email)
       .input("Username", sql.NVarChar, Username)
-      .query(`
-        UPDATE Users
-        SET Name = @Name, Email = @Email
-        WHERE Username = @Username
-      `);
+      if (Avatar_url) {
+        request.input("Avatar_url", sql.NVarChar, Avatar_url);
+      }
+      let updateQuery =`
+      UPDATE Users
+      SET Name = @Name,
+          Email = @Email,
+          Username = @Username
+    `;
+    if (Avatar_url) {
+      updateQuery += `, Avatar_url = @Avatar_url`;
+    }
+    updateQuery += " WHERE Username = @Username";
+    await request.query(updateQuery);
 
     const user = await pool.request()
       .input("Username", sql.NVarChar, Username)
@@ -145,7 +157,7 @@ app.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { ID: user.ID, Username: user.Username, Email: user.Email, Role: user.Role, Name: user.Name, Active: user.Active },
+      { ID: user.ID, Username: user.Username, Email: user.Email, Role: user.Role, Name: user.Name, Active: user.Active, Avatar_url: user.Avatar_url },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -159,7 +171,8 @@ app.post("/login", async (req, res) => {
         Email: user.Email,
         Name: user.Name,
         Role: user.Role,
-        Active: user.Active
+        Active: user.Active,
+        Avatar_url: user.Avatar_url
       }
     });
   } catch (err) {
@@ -220,6 +233,7 @@ app.get("/recipes", async (req, res) => {
         r.DeleteYn,
         r.User_id,
         u.Name AS Author,
+        u.Avatar_url AS AuthorAvatar,
         i.Name AS IngredientName,
         i.Unit,
         ri.Quantity
@@ -239,7 +253,7 @@ app.get("/recipes", async (req, res) => {
     rows.forEach(row => {
       const {
         RecipeID, Title, Description, Image_url, Instruction,
-        Created_at, Update_at, DeleteYn, User_id, Author,
+        Created_at, Update_at, DeleteYn, User_id, Author, AuthorAvatar,
         IngredientName, Quantity, Unit
       } = row;
 
@@ -255,6 +269,7 @@ app.get("/recipes", async (req, res) => {
           DeleteYn,
           User_id,
           Author,
+          AuthorAvatar,
           Ingredients: []
         };
       }
